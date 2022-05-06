@@ -2,19 +2,14 @@ package com.zmh.easyexcel.write;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
-import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.zmh.easyexcel.annotation.ExcelPropertySupport;
 import com.zmh.easyexcel.annotation.group.Default;
 import com.zmh.easyexcel.builder.WriterBuilder;
-import com.zmh.easyexcel.context.WriterContext;
-import com.zmh.easyexcel.excel.converter.IntegerPropertyConverter;
 import com.zmh.easyexcel.entity.PageWriter;
-import com.zmh.easyexcel.excel.handle.CommentWriteHandler;
 
 import java.io.*;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Miles(miles @ kastking.com)
@@ -23,6 +18,8 @@ import java.util.Set;
  *
  * 不支持嵌套 List Map 或 实体  EasyExcel 默认就不支持实体List嵌套，只要嵌套了，必须要声明对应的转换器对象
  * 不支持继承
+ *
+ * 工具比较简单，所以整个工具没有任何接口类，当然也没必要
  */
 public class EasyExcelWriter<T> {
 
