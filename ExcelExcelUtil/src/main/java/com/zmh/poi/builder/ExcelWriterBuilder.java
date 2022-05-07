@@ -1,7 +1,6 @@
 package com.zmh.poi.builder;
 
 import com.zmh.poi.entity.CellData;
-import com.zmh.poi.util.CellDataUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -14,6 +13,9 @@ import java.util.List;
  * @author Miles(miles @ kastking.com)
  * @date: 2022/5/6 15:03
  * @description:
+ *
+ * 本方法采用实时写入的方式进行导出
+ * addRow调用一次便使用一次，并且不会收集所有的row
  */
 public class ExcelWriterBuilder {
 
@@ -26,11 +28,16 @@ public class ExcelWriterBuilder {
      * Excel sheet最大行数，默认65536
      */
     public static final int sheetSize = 65536;
+    /**
+     * Excel sheet最大style数，默认4000
+     */
+    public static final int styleSize = 4000;
 
     //当前行
     private int curRow = 0;
-
     private int totalRow = 0;
+
+    private int curStyleNum = 0;
 
     private OutputStream outputStream;
 
@@ -40,6 +47,7 @@ public class ExcelWriterBuilder {
 
     /**
      * add row
+     * 实时添加数据，实则可以写一个list添加用户数据，然后写一个dowrite再实现真实添加
      * */
     public void addRow(List<CellData> cellDataList){
         if (cellDataList == null){
@@ -47,7 +55,27 @@ public class ExcelWriterBuilder {
         }
         Row row = createRow();
         for (CellData cellData : cellDataList){
-            CellDataUtils.newInstance(cellData,curSheet,row).doCell();
+            CellDataBuilder.newInstance(cellData,workbook,curSheet,row).doCell();
+        }
+    }
+
+    /**
+     * add row
+     * @param cellDataList 一行所有列数据
+     * @param skipRow 往后跳过几行
+     * */
+    public void addRow(List<CellData> cellDataList,int skipRow){
+        if (cellDataList == null){
+            return;
+        }
+        Row row = createRow();
+        if (skipRow > 0){
+            this.curRow += skipRow;
+        }
+        for (CellData cellData : cellDataList){
+            CellDataBuilder
+                    .newInstance(cellData, workbook, curSheet, row)
+                    .doCell();
         }
     }
 
