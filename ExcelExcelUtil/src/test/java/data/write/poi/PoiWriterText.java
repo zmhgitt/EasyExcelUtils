@@ -53,7 +53,7 @@ public class PoiWriterText {
         for (int i=0;i<10;i++){
             CellData cellData = cellDataUtils.getCellData("column" + i);
             //设置边框
-            cellData.setHasBorder(true);
+            cellData.setBorder(true);
             //设置字体居中
             cellData.setFontCenter(true);
             //设置字体颜色
@@ -73,7 +73,7 @@ public class PoiWriterText {
             //设置字体居中
             cellData.setFontCenter(true);
             //设置边框
-            cellData.setHasBorder(true);
+            cellData.setBorder(true);
             data.add(cellData);
         }
         return data;
@@ -87,7 +87,7 @@ public class PoiWriterText {
             //设置字体居中
             cellData.setFontCenter(true);
             //设置边框
-            cellData.setHasBorder(true);
+            cellData.setBorder(true);
             data.add(cellData);
         }
         return data;

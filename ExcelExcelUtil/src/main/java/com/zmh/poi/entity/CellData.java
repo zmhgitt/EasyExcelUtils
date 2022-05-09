@@ -27,7 +27,7 @@ public class CellData {
     private Integer columnWidth;
     //###########style##############
     /**边框*/
-    private Boolean hasBorder;
+    private Boolean border;
 
     /**字体居中*/
     private Boolean fontCenter;
@@ -67,12 +67,12 @@ public class CellData {
         this.mergeColNum = mergeColNum;
     }
 
-    public Boolean getHasBorder() {
-        return hasBorder;
+    public Boolean getBorder() {
+        return border;
     }
 
-    public void setHasBorder(Boolean hasBorder) {
-        this.hasBorder = hasBorder;
+    public void setBorder(Boolean border) {
+        this.border = border;
     }
 
     public IndexedColors getFontColor() {

@@ -54,7 +54,7 @@ public class CellDataBuilder {
         if (mergeRow() || mergeCol()) {
             CellRangeAddress region = new CellRangeAddress(row.getRowNum(), row.getRowNum() + cellData.getMergeRowNum(), cellData.getColIndex(), cellData.getColIndex() + cellData.getMergeColNum());
             sheet.addMergedRegion(region);
-            if (cellData.getHasBorder()) {
+            if (cellData.getBorder()) {
                 RegionUtil.setBorderBottom(BorderStyle.THIN,region,sheet);
                 RegionUtil.setBorderLeft(BorderStyle.THIN,region,sheet);
                 RegionUtil.setBorderRight(BorderStyle.THIN,region,sheet);
@@ -83,14 +83,14 @@ public class CellDataBuilder {
      */
     private void setStyle(Cell cell) {
         boolean f = false;
-        if (cellData.getHasBorder() || cellData.getFontCenter() || cellData.getFontColor() != null){
+        if (cellData.getBorder() || cellData.getFontCenter() || cellData.getFontColor() != null){
             f = true;
         }
         if (f){
             //样式对象不能超过4000;
             CellStyle cellStyle = workbook.createCellStyle();
             //设置边框
-            if (cellData.getHasBorder() && !mergeRow() && !mergeCol()) {
+            if (cellData.getBorder() && !mergeRow() && !mergeCol()) {
                 cellStyle.setBorderBottom(BorderStyle.THIN);
                 cellStyle.setBorderLeft(BorderStyle.THIN);
                 cellStyle.setBorderRight(BorderStyle.THIN);
