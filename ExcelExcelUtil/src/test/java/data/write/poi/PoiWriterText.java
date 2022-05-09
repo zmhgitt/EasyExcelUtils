@@ -43,7 +43,7 @@ public class PoiWriterText {
 
         //4、导出
         excelWriter.setOutputStream(outputStream)
-                .finish();
+                .doWrite();
     }
 
 
@@ -58,6 +58,8 @@ public class PoiWriterText {
             cellData.setFontCenter(true);
             //设置字体颜色
             cellData.setFontColor(IndexedColors.RED);
+            //字符长度  10 即10个字符长度
+            cellData.setColumnWidth(10);
             data.add(cellData);
         }
         return data;

@@ -46,7 +46,8 @@ public class ExcelWriter {
         excelWriterBuilder.addRow(cellDataList,skipRow);
     }
 
-    public void finish(){
+
+    public void doWrite(){
         excelWriterBuilder.finish();
     }
 }
