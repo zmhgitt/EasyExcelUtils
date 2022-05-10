@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 public class CellData {
 
     private String stringValue;
+    private String doubleValue;
 
     /**列标*/
     private Integer colIndex;
@@ -97,5 +98,13 @@ public class CellData {
 
     public void setColumnWidth(Integer columnWidth) {
         this.columnWidth = columnWidth;
+    }
+
+    public String getDoubleValue() {
+        return doubleValue;
+    }
+
+    public void setDoubleValue(String doubleValue) {
+        this.doubleValue = doubleValue;
     }
 }

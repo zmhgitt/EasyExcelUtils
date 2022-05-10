@@ -32,7 +32,12 @@ public class CellDataBuilder {
         this.sheet = sheet;
         this.row = row;
 
-        cell = row.createCell(cellData.getColIndex(), CellType.STRING);
+        if (cellData.getDoubleValue() != null){
+            cell = row.createCell(cellData.getColIndex(), CellType.NUMERIC);
+        }else{
+            cell = row.createCell(cellData.getColIndex(), CellType.STRING);
+        }
+
     }
 
     /**
@@ -41,7 +46,11 @@ public class CellDataBuilder {
     public CellDataBuilder doCell() {
         setStyle(cell);
         doMerge();
-        cell.setCellValue(cellData.getStringValue());
+        if (cellData.getDoubleValue() != null){
+            cell.setCellValue(cellData.getDoubleValue());
+        }else{
+            cell.setCellValue(cellData.getStringValue());
+        }
         return this;
     }
 
