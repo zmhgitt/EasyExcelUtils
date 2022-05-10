@@ -64,15 +64,23 @@ public class CellDataBuilder {
     }
 
     private Boolean mergeRow() {
-        if (cellData.getMergeRowNum() != null && cellData.getMergeRowNum() > 0) {
-            return true;
+        if (cellData.getMergeRowNum() != null) {
+            if (cellData.getMergeRowNum() > 0){
+                return true;
+            }
+        }else{
+            cellData.setMergeRowNum(0);
         }
         return false;
     }
 
     private Boolean mergeCol() {
-        if (cellData.getMergeColNum() != null && cellData.getMergeColNum() > 0) {
-            return true;
+        if (cellData.getMergeColNum() != null) {
+            if (cellData.getMergeColNum() > 0){
+                return true;
+            }
+        }else{
+            cellData.setMergeColNum(0);
         }
         return false;
     }

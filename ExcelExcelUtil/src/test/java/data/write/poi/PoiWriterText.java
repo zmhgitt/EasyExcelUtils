@@ -37,8 +37,8 @@ public class PoiWriterText {
         //主要作用是自定义每一行格式，，，注意一个workbook最多4000个样式
         for (int i = 0;i<180;i++){
             excelWriter.addRow(data1());
-            excelWriter.addRow(data2());
-            excelWriter.addRow(data3(),2);
+            excelWriter.addRow(data2(),2);
+            excelWriter.addRow(data3());
         }
 
         //4、导出
@@ -69,7 +69,7 @@ public class PoiWriterText {
         List<CellData> data = new ArrayList<CellData>();
         CellDataUtils cellDataUtils = new CellDataUtils();
         for (int i=0;i<2;i++){
-            CellData cellData = cellDataUtils.getCellData("column" + i,0,4);
+            CellData cellData = cellDataUtils.getCellData("column" + i,2,4);
             //设置字体居中
             cellData.setFontCenter(true);
             //设置边框
@@ -82,14 +82,20 @@ public class PoiWriterText {
     private List<CellData> data3(){
         List<CellData> data = new ArrayList<CellData>();
         CellDataUtils cellDataUtils = new CellDataUtils();
-        for (int i=0;i<10;i++){
-            CellData cellData = cellDataUtils.getCellData("column" + i,2,0);
+        for (int i=0;i<5;i++){
+            CellData cellData = new CellData();
+            cellData.setStringValue("column"+i);
+            //合并两列
+            cellData.setMergeColNum(1);
+            cellData.setMergeRowNum(0);
             //设置字体居中
             cellData.setFontCenter(true);
             //设置边框
             cellData.setBorder(true);
             data.add(cellData);
         }
+        //自己创建data 需要重置一下列标
+        cellDataUtils.resetCellColumn(data);
         return data;
     }
 }
