@@ -125,10 +125,6 @@ public class CellDataBuilder {
                 cellStyle.setFont(font);
             }
             cell.setCellStyle(cellStyle);
-
-            if (cellData.getColumnWidth() != null && cellData.getColumnWidth() > 0){
-                sheet.setColumnWidth(cellData.getColIndex(),cellData.getColumnWidth()*256);
-            }
         }
     }
 }

@@ -24,8 +24,6 @@ public class CellData {
     /** 往后合并 */
     private Integer mergeColNum;
 
-    /**列宽  为10 即10个字符长度*/
-    private Integer columnWidth;
     //###########style##############
     /**边框*/
     private Boolean border;
@@ -90,14 +88,6 @@ public class CellData {
 
     public void setFontCenter(Boolean fontCenter) {
         this.fontCenter = fontCenter;
-    }
-
-    public Integer getColumnWidth() {
-        return columnWidth;
-    }
-
-    public void setColumnWidth(Integer columnWidth) {
-        this.columnWidth = columnWidth;
     }
 
     public Double getDoubleValue() {
