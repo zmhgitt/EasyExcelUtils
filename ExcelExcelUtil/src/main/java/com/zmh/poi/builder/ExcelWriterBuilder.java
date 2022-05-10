@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,9 +20,13 @@ import java.util.List;
  */
 public class ExcelWriterBuilder {
 
+    private CellDataBuilder cellDataBuilder;
+
     private Workbook workbook;
 
-    private Sheet curSheet = null; //可以创建List记录Sheet，我这里就不创建了，用不上
+    private Sheet curSheet;
+
+    private List<Sheet> sheetList;
 
     private int sheetNo = 1;
     /**
@@ -37,7 +42,9 @@ public class ExcelWriterBuilder {
     private int curRow = 0;
     private int totalRow = 0;
 
-    private int curStyleNum = 0;
+    private int maxColumn = 0;
+
+
 
     private OutputStream outputStream;
 
@@ -53,9 +60,13 @@ public class ExcelWriterBuilder {
         if (cellDataList == null){
             return;
         }
-        Row row = createRow();
+        if (cellDataList.size() > maxColumn){
+            maxColumn = cellDataList.size();
+        }
+
+        Row row = createRow(getMaxMergeRow(cellDataList));
         for (CellData cellData : cellDataList){
-            CellDataBuilder.newInstance(cellData,workbook,curSheet,row).doCell();
+            cellDataBuilder.doCell(row,cellData);
         }
     }
 
@@ -68,14 +79,30 @@ public class ExcelWriterBuilder {
         if (cellDataList == null){
             return;
         }
-        Row row = createRow();
+        if (cellDataList.size() > maxColumn){
+            maxColumn = cellDataList.size();
+        }
+        Row row = createRow(getMaxMergeRow(cellDataList));
         if (skipRow > 0){
             this.curRow += skipRow;
         }
         for (CellData cellData : cellDataList){
-            CellDataBuilder
-                    .newInstance(cellData, workbook, curSheet, row)
-                    .doCell();
+            cellDataBuilder.doCell(row,cellData);
+        }
+    }
+
+    /**设置列宽度*/
+    public void setColumnWidth(int width){
+        for (int i=0; i<maxColumn;i++){
+            this.setColumnWidth(i,width);
+        }
+    }
+    public void setColumnWidth(int colIndex,int width){
+        if (colIndex < 0 || width < 0){
+            throw new RuntimeException();
+        }
+        for (Sheet sheet : sheetList){
+            sheet.setColumnWidth(colIndex,width*256);
         }
     }
 
@@ -114,17 +141,33 @@ public class ExcelWriterBuilder {
         return workbook.createSheet(sheetName);
     }
 
-    private Row createRow(){
+    private Row createRow(int maxMergeRow){
         if (curSheet == null){
             this.curSheet = createSheet("sheet"+sheetNo++);
+            this.sheetList = new ArrayList<Sheet>(10);
+            this.cellDataBuilder = new CellDataBuilder(workbook,curSheet);
+
+            this.sheetList.add(curSheet);
         }
         totalRow++;
-        if (curRow < sheetSize){
+        if ((curRow+maxMergeRow) < sheetSize){
             return curSheet.createRow(curRow++);
         }else{
             this.curSheet = createSheet("sheet"+sheetNo++);
+            this.cellDataBuilder = new CellDataBuilder(workbook,curSheet);
+            this.sheetList.add(curSheet);
             curRow = 0;
             return curSheet.createRow(curRow++);
         }
+    }
+
+    private int getMaxMergeRow(List<CellData> cellDataList){
+        int maxMergeRow = 0;
+        for (CellData cellData : cellDataList){
+            if (cellData.getMergeRowNum() != null && cellData.getMergeRowNum() > maxMergeRow){
+                maxMergeRow = cellData.getMergeRowNum();
+            }
+        }
+        return maxMergeRow;
     }
 }

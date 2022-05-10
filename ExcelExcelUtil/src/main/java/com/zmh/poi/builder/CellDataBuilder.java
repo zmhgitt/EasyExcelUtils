@@ -5,6 +5,9 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Miles(miles @ kastking.com)
  * @date: 2022/5/6 15:43
@@ -14,41 +17,38 @@ import org.apache.poi.ss.util.RegionUtil;
  */
 public class CellDataBuilder {
 
-    private final CellData cellData;
-
+    private CellData cellData;
     private Workbook workbook;
-    private final Sheet sheet;
-    private final Row row;
-    private final Cell cell;
+    private Sheet sheet;
+    private Row row;
+    private Cell cell;
 
-    public static CellDataBuilder newInstance(CellData cellData, Workbook workbook, Sheet sheet, Row row) {
-        //没有判断null
-        return new CellDataBuilder(cellData, workbook, sheet, row);
-    }
+    private Map<String, CellStyle> cellStyleMap;
 
-    private CellDataBuilder(CellData cellData, Workbook workbook, Sheet sheet, Row row) {
-        this.cellData = cellData;
+    public CellDataBuilder(Workbook workbook, Sheet sheet) {
+
         this.workbook = workbook;
         this.sheet = sheet;
-        this.row = row;
-
-        if (cellData.getDoubleValue() != null){
-            cell = row.createCell(cellData.getColIndex(), CellType.NUMERIC);
-        }else{
-            cell = row.createCell(cellData.getColIndex(), CellType.STRING);
-        }
-
     }
 
     /**
      * 所有新增方法都用此方法进行调用
      */
-    public CellDataBuilder doCell() {
+    public CellDataBuilder doCell(Row row, CellData cellData) {
+        this.row = row;
+        this.cellData = cellData;
+
+        if (cellData.getDoubleValue() != null) {
+            cell = row.createCell(cellData.getColIndex(), CellType.NUMERIC);
+        } else {
+            cell = row.createCell(cellData.getColIndex());
+        }
+
         setStyle(cell);
         doMerge();
-        if (cellData.getDoubleValue() != null){
+        if (cellData.getDoubleValue() != null) {
             cell.setCellValue(cellData.getDoubleValue());
-        }else{
+        } else {
             cell.setCellValue(cellData.getStringValue());
         }
         return this;
@@ -64,20 +64,20 @@ public class CellDataBuilder {
             CellRangeAddress region = new CellRangeAddress(row.getRowNum(), row.getRowNum() + cellData.getMergeRowNum(), cellData.getColIndex(), cellData.getColIndex() + cellData.getMergeColNum());
             sheet.addMergedRegion(region);
             if (cellData.getBorder()) {
-                RegionUtil.setBorderBottom(BorderStyle.THIN,region,sheet);
-                RegionUtil.setBorderLeft(BorderStyle.THIN,region,sheet);
-                RegionUtil.setBorderRight(BorderStyle.THIN,region,sheet);
-                RegionUtil.setBorderTop(BorderStyle.THIN,region,sheet);
+                RegionUtil.setBorderBottom(BorderStyle.THIN, region, sheet);
+                RegionUtil.setBorderLeft(BorderStyle.THIN, region, sheet);
+                RegionUtil.setBorderRight(BorderStyle.THIN, region, sheet);
+                RegionUtil.setBorderTop(BorderStyle.THIN, region, sheet);
             }
         }
     }
 
     private Boolean mergeRow() {
         if (cellData.getMergeRowNum() != null) {
-            if (cellData.getMergeRowNum() > 0){
+            if (cellData.getMergeRowNum() > 0) {
                 return true;
             }
-        }else{
+        } else {
             cellData.setMergeRowNum(0);
         }
         return false;
@@ -85,10 +85,10 @@ public class CellDataBuilder {
 
     private Boolean mergeCol() {
         if (cellData.getMergeColNum() != null) {
-            if (cellData.getMergeColNum() > 0){
+            if (cellData.getMergeColNum() > 0) {
                 return true;
             }
-        }else{
+        } else {
             cellData.setMergeColNum(0);
         }
         return false;
@@ -100,12 +100,21 @@ public class CellDataBuilder {
      */
     private void setStyle(Cell cell) {
         boolean f = false;
-        if (cellData.getBorder() || cellData.getFontCenter() || cellData.getFontColor() != null){
+        if (cellData.getBorder() || cellData.getFontCenter() || cellData.getFontColor() != null) {
             f = true;
         }
-        if (f){
+        if (f) {
+            if (this.cellStyleMap == null) {
+                this.cellStyleMap = new HashMap<String, CellStyle>(16);
+            }
             //样式对象不能超过4000;
-            CellStyle cellStyle = workbook.createCellStyle();
+            CellStyle cellStyle = getCellStyle();
+            if (getCellStyle() != null){
+                cell.setCellStyle(cellStyle);
+                return;
+            }
+
+            cellStyle = workbook.createCellStyle();
             //设置边框
             if (cellData.getBorder() && !mergeRow() && !mergeCol()) {
                 cellStyle.setBorderBottom(BorderStyle.THIN);
@@ -114,7 +123,7 @@ public class CellDataBuilder {
                 cellStyle.setBorderTop(BorderStyle.THIN);
             }
             //字体居中
-            if (cellData.getFontCenter()){
+            if (cellData.getFontCenter()) {
                 cellStyle.setAlignment(HorizontalAlignment.CENTER);
                 cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
             }
@@ -125,6 +134,37 @@ public class CellDataBuilder {
                 cellStyle.setFont(font);
             }
             cell.setCellStyle(cellStyle);
+            this.setCellStyleMap(cellStyle);//缓存
         }
+    }
+
+    private void setCellStyleMap(CellStyle cellStyle){
+        this.cellStyleMap.put(getCellStyleKey(),cellStyle);
+    }
+
+    private CellStyle getCellStyle(){
+        String key = getCellStyleKey();
+        if (key.length() < 1){
+            return null;
+        }
+        return cellStyleMap.get(key);
+    }
+
+    private String getCellStyleKey(){
+        StringBuilder key = new StringBuilder();
+        if (cellData.getBorder()){
+            key.append(1);
+        }else{
+            key.append(0);
+        }
+        if (cellData.getFontCenter()){
+            key.append(1);
+        }else{
+            key.append(0);
+        }
+        if (cellData.getFontColor() != null){
+            key.append(cellData.getFontColor().getIndex());
+        }
+        return key.toString();
     }
 }

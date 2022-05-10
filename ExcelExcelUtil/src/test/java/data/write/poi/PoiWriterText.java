@@ -35,14 +35,16 @@ public class PoiWriterText {
         //可以将导出对象转化为List<CellData> 再进行导出
         //建议使用CellDataUtils#getCellData获取CellData对象
         //主要作用是自定义每一行格式，，，注意一个workbook最多4000个样式
-        for (int i = 0;i<180;i++){
+        for (int i = 0;i<66000;i++){
             excelWriter.addRow(data1());
-            excelWriter.addRow(data2(),2);
-            excelWriter.addRow(data3());
+//            excelWriter.addRow(data2(),2);
+//            excelWriter.addRow(data3());
         }
 
         //4、导出
         excelWriter.setOutputStream(outputStream)
+                .setColumnWidth(20)//20个字符宽度
+                .setColumnWidth(2,10)
                 .doWrite();
     }
 
@@ -58,8 +60,6 @@ public class PoiWriterText {
             cellData.setFontCenter(true);
             //设置字体颜色
             cellData.setFontColor(IndexedColors.RED);
-            //字符长度  10 即10个字符长度
-            cellData.setColumnWidth(10);
             data.add(cellData);
         }
         return data;

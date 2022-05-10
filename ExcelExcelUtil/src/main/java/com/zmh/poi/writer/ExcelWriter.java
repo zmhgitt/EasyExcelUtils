@@ -28,6 +28,14 @@ public class ExcelWriter {
         excelWriterBuilder.setOutputStream(outputStream);
         return this;
     }
+    public ExcelWriter setColumnWidth(int width){
+        excelWriterBuilder.setColumnWidth(width);
+        return this;
+    }
+    public ExcelWriter setColumnWidth(int colIndex,int width){
+        excelWriterBuilder.setColumnWidth(colIndex,width);
+        return this;
+    }
 
     /**
      * add row
