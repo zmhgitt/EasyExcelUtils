@@ -128,11 +128,16 @@ public class CellDataBuilder {
                 cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
             }
             //字体 颜色
-            if (cellData.getFontColor() != null) {
-                Font font = workbook.createFont();
+            Font font = workbook.createFont();//这个样式也可以缓存
+            if (cellData.getFontColor() != null ) {
                 font.setColor(cellData.getFontColor().getIndex());
-                cellStyle.setFont(font);
             }
+            //字体 加粗
+            if (cellData.getFontBold() != null){
+                font.setBold(cellData.getFontBold());
+            }
+            cellStyle.setFont(font);
+
             cell.setCellStyle(cellStyle);
             this.setCellStyleMap(cellStyle);//缓存
         }
@@ -152,18 +157,23 @@ public class CellDataBuilder {
 
     private String getCellStyleKey(){
         StringBuilder key = new StringBuilder();
-        if (cellData.getBorder()){
+        if (cellData.getBorder() != null && cellData.getBorder()){
             key.append(1);
         }else{
             key.append(0);
         }
-        if (cellData.getFontCenter()){
+        if (cellData.getFontCenter() != null && cellData.getFontCenter()){
             key.append(1);
         }else{
             key.append(0);
         }
         if (cellData.getFontColor() != null){
             key.append(cellData.getFontColor().getIndex());
+        }
+        if (cellData.getFontBold() != null && cellData.getFontBold()){
+            key.append(1);
+        }else{
+            key.append(0);
         }
         return key.toString();
     }

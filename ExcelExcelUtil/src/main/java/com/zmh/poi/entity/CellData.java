@@ -34,6 +34,9 @@ public class CellData {
     /**字体颜色*/
     private IndexedColors fontColor;
 
+    /**字体加粗*/
+    private Boolean fontBold;
+
     public String getStringValue() {
         return stringValue;
     }
@@ -96,5 +99,13 @@ public class CellData {
 
     public void setDoubleValue(Double doubleValue) {
         this.doubleValue = doubleValue;
+    }
+
+    public Boolean getFontBold() {
+        return fontBold;
+    }
+
+    public void setFontBold(Boolean fontBold) {
+        this.fontBold = fontBold;
     }
 }

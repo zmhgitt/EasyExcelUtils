@@ -35,10 +35,10 @@ public class PoiWriterText {
         //可以将导出对象转化为List<CellData> 再进行导出
         //建议使用CellDataUtils#getCellData获取CellData对象
         //主要作用是自定义每一行格式，，，注意一个workbook最多4000个样式
-        for (int i = 0;i<66000;i++){
+        for (int i = 0;i<1000;i++){
             excelWriter.addRow(data1());
-//            excelWriter.addRow(data2(),2);
-//            excelWriter.addRow(data3());
+            excelWriter.addRow(data2(),2);
+            excelWriter.addRow(data3());
         }
 
         //4、导出
