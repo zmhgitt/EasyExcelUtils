@@ -2,6 +2,7 @@ package com.zmh.easyexcel.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.zmh.easyexcel.annotation.ExcelPropertySupport;
+import com.zmh.easyexcel.annotation.ExcelUri;
 
 import java.lang.reflect.Field;
 
@@ -27,6 +28,8 @@ public class WriteField {
 
     private ExcelPropertySupport excelPropertySupport;
 
+    private ExcelUri excelUri;
+
     public Field getField() {
         return field;
     }
@@ -49,6 +52,14 @@ public class WriteField {
 
     public void setExcelPropertySupport(ExcelPropertySupport excelPropertySupport) {
         this.excelPropertySupport = excelPropertySupport;
+    }
+
+    public ExcelUri getExcelUri() {
+        return excelUri;
+    }
+
+    public void setExcelUri(ExcelUri excelUri) {
+        this.excelUri = excelUri;
     }
 
     public int getLastTitleIndex() {

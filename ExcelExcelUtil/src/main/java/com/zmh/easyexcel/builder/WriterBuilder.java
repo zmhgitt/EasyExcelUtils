@@ -7,6 +7,7 @@ import com.zmh.easyexcel.context.WriterContext;
 import com.zmh.easyexcel.excel.converter.IntegerPropertyConverter;
 import com.zmh.easyexcel.excel.converter.StringPropertyConverter;
 import com.zmh.easyexcel.excel.handle.CommentWriteHandler;
+import com.zmh.easyexcel.excel.handle.UriCommentWriteHandle;
 
 import java.io.OutputStream;
 import java.util.Set;
@@ -40,6 +41,7 @@ public class WriterBuilder {
             ExcelWriterBuilder excelWriter = EasyExcel.write(outputStream, clazz)
                     .registerConverter(new IntegerPropertyConverter())
                     .registerConverter(new StringPropertyConverter())
+                    .registerWriteHandler(new UriCommentWriteHandle(context))
                     .registerWriteHandler(new CommentWriteHandler(context));
             this.context.setExcelWriterBuilder(excelWriter);
             //先初始化需要导出的列

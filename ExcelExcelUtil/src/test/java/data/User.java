@@ -4,6 +4,7 @@ import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.zmh.easyexcel.annotation.ExcelPropertySupport;
+import com.zmh.easyexcel.annotation.ExcelUri;
 import lombok.Data;
 
 /**
@@ -21,7 +22,7 @@ public class User {
     private Integer sex;
 
     @ExcelProperty(value = "学生姓名")
-    @ExcelPropertySupport(prefix = "http://",suffix = ".com")
+    @ExcelUri(value = "点击查看",uri = "https://github.com/alibaba/easyexcel")
     private String name;
 
     @ExcelProperty(value = {"状态"})

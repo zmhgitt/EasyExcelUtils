@@ -24,7 +24,7 @@ public class PoiWriterText {
 
     @Test
     public void write() throws FileNotFoundException {
-        //1、创建ExcelWriter对象  2007
+        //1、创建ExcelWriter对象  2007比2003慢
         ExcelWriter excelWriter = new ExcelWriter();
         //2、获取输出流，web可以使用Response.getOutputStream()，此处用暂时随便
         OutputStream outputStream = new FileOutputStream(new File("D:\\11\\" + System.currentTimeMillis() + ".xlsx"));

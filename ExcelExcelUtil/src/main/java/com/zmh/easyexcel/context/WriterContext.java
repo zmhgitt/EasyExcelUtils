@@ -5,6 +5,7 @@ import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.exception.ExcelCommonException;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
+import com.zmh.easyexcel.annotation.ExcelUri;
 import com.zmh.easyexcel.annotation.group.Default;
 import com.zmh.easyexcel.annotation.ExcelPropertySupport;
 import com.zmh.easyexcel.entity.WriteField;
@@ -67,6 +68,7 @@ public class WriterContext {
         for (Field field : allFields){
             ExcelProperty excelProperty = field.getAnnotation(ExcelProperty.class);
             ExcelPropertySupport excelPropertySupport = field.getAnnotation(ExcelPropertySupport.class);
+            ExcelUri excelUri = field.getAnnotation(ExcelUri.class);
             ExcelIgnore excelIgnore = field.getAnnotation(ExcelIgnore.class);
 
             boolean exportField = true;
@@ -91,6 +93,7 @@ public class WriterContext {
                 writeField.setField(field);
                 writeField.setExcelProperty(excelProperty);
                 writeField.setExcelPropertySupport(excelPropertySupport);
+                writeField.setExcelUri(excelUri);
                 if (excelProperty != null && excelProperty.index() != -1){
                     //这段为EasyExcel 的源码
                     if (indexFiledMap.containsKey(excelProperty.index())) {

@@ -26,8 +26,6 @@ public class ExcelWriterBuilder {
 
     private Sheet curSheet;
 
-    private List<Sheet> sheetList;
-
     private int sheetNo = 1;
     /**
      * Excel sheet最大行数，默认65536
@@ -101,8 +99,9 @@ public class ExcelWriterBuilder {
         if (colIndex < 0 || width < 0){
             throw new RuntimeException();
         }
-        for (Sheet sheet : sheetList){
-            sheet.setColumnWidth(colIndex,width*256);
+        int sheetNum = workbook.getNumberOfSheets();
+        for (int i=0;i<sheetNum;i++){
+            workbook.getSheetAt(i).setColumnWidth(colIndex,width*256);
         }
     }
 
@@ -144,10 +143,7 @@ public class ExcelWriterBuilder {
     private Row createRow(int maxMergeRow){
         if (curSheet == null){
             this.curSheet = createSheet("sheet"+sheetNo++);
-            this.sheetList = new ArrayList<Sheet>(10);
             this.cellDataBuilder = new CellDataBuilder(workbook,curSheet);
-
-            this.sheetList.add(curSheet);
         }
         totalRow++;
         if ((curRow+maxMergeRow) < sheetSize){
@@ -155,7 +151,6 @@ public class ExcelWriterBuilder {
         }else{
             this.curSheet = createSheet("sheet"+sheetNo++);
             this.cellDataBuilder = new CellDataBuilder(workbook,curSheet);
-            this.sheetList.add(curSheet);
             curRow = 0;
             return curSheet.createRow(curRow++);
         }
