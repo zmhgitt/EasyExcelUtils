@@ -24,11 +24,11 @@ import java.util.Map;
  * @date: 2022/5/11 16:39
  * @description:
  */
-public class UriCommentWriteHandle implements WorkbookWriteHandler {
+public class UriWriteHandle implements WorkbookWriteHandler {
 
     private WriterContext context;
 
-    public UriCommentWriteHandle(WriterContext writerContext){
+    public UriWriteHandle(WriterContext writerContext){
         this.context = writerContext;
     }
 
@@ -66,7 +66,7 @@ public class UriCommentWriteHandle implements WorkbookWriteHandler {
 
             for (Integer colIndex : indexList){
                 WriteField writeField = writeFields.get(colIndex);
-                int rowIndex = writeField.getLastTitleIndex();
+                int rowIndex = writeField.getLastTitleIndex();//直接context得到也可以
                 ExcelUri excelUri = writeField.getExcelUri();
                 while (sheet.getRow(rowIndex) != null){
                     Row row = sheet.getRow(rowIndex++);

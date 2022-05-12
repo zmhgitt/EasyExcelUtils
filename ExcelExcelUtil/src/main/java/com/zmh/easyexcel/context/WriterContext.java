@@ -115,7 +115,7 @@ public class WriterContext {
         for (WriteField writeField : orderFieldList){
             while (indexFiledMap.containsKey(index)){
                 allFiledMap.put(index,indexFiledMap.get(index));
-                allFiledMap.remove(index);
+                indexFiledMap.remove(index);
                 index++;
             }
             allFiledMap.put(index,writeField);
