@@ -23,7 +23,9 @@ import java.util.Map;
  * @author Miles(miles @ kastking.com)
  * @date: 2022/5/11 16:39
  * @description:
+ * todo: 无法对所有行进行超链接设置，目前只能拿到后500行,头疼
  */
+@Deprecated
 public class UriWriteHandle implements WorkbookWriteHandler {
 
     private WriterContext context;
@@ -66,10 +68,10 @@ public class UriWriteHandle implements WorkbookWriteHandler {
 
             for (Integer colIndex : indexList){
                 WriteField writeField = writeFields.get(colIndex);
-                int rowIndex = writeField.getLastTitleIndex();//直接context得到也可以
+                int rowIndex = writeSheetHolder.getNewRowIndexAndStartDoWrite()-1;//直接context得到也可以
                 ExcelUri excelUri = writeField.getExcelUri();
-                while (sheet.getRow(rowIndex) != null){
-                    Row row = sheet.getRow(rowIndex++);
+                while (sheet.getRow(rowIndex) != null && rowIndex >= writeField.getLastTitleIndex()){ //只会拿后500行
+                    Row row = sheet.getRow(rowIndex--);
                     if (row.getCell(colIndex) != null){
                         Cell cell = row.getCell(colIndex);
                         CreationHelper createHelper = writeSheetHolder.getSheet().getWorkbook().getCreationHelper();

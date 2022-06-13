@@ -84,7 +84,7 @@ public class WriteTest {
         writer.setOutputStream(outputStream)//需要提前设置输出流
                 //分组时仅需在此调用group即可实现分组
                 .group(Group.Group1.class) //Group1为导出的组，由{@link ExcelPropertySupport#groups()} 定义
-                .simpleExport(DataUtils.data());
+                .simpleExport(DataUtils.data(1000));
 
         //2、分页导出的分组方式
 //        //仅需事先声明其余不变
