@@ -64,6 +64,7 @@ public class UriWriteHandle implements WorkbookWriteHandler {
         Map<Integer, WriteSheetHolder> sheets = writeWorkbookHolder.getHasBeenInitializedSheet();
         for (Integer key : sheets.keySet()){
             WriteSheetHolder writeSheetHolder = sheets.get(key);
+
             Sheet sheet = writeSheetHolder.getSheet();
 
             for (Integer colIndex : indexList){

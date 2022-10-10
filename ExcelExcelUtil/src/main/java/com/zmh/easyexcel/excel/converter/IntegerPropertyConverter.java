@@ -56,6 +56,11 @@ public class IntegerPropertyConverter implements Converter<Integer> {
                 }
             }
         }
-        return new CellData(s);
+        if (s != null){
+            return new CellData(s+"");
+        }else{
+            return new CellData("");
+        }
+
     }
 }
