@@ -1,22 +1,14 @@
-/**
- * 封装所有的关键字
- */
 package com.zmh.generator.parsing;
 
-public enum TokenType {
+/**
+ * @author Miles
+ * @date 2022/10/11 10:29
+ */
+public class TokenType {
 
-
-    GetVar("Z{"),
-
-    RightCurly("}"),
-
-    ;
-    private String literal;
-    TokenType(String literal){
-        this.literal = literal;
-    }
-
-    public String getLiteral() {
-        return literal;
-    }
+//    public static TokenStream[] BASE_COMMANDS = new TokenStream[]{
+//            new TokenStream(wnew Token[]{
+//                    Token.GetVar, Token.RightCurly
+//            }),
+//    };
 }

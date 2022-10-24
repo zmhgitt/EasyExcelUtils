@@ -1,6 +1,6 @@
 package com.zmh.generator.start;
 
-import com.zmh.generator.parsing.SourceStream;
+import com.zmh.generator.parsing.SourceBuilder;
 
 /**
  * @author Miles
@@ -26,7 +26,7 @@ public class Generator {
 
     public static void main(String[] args) {
         String source = "csuihuisvid'xxsdsidhji'sehfcuishwfiuwehi'asasasas'";
-        SourceStream sourceStream = new SourceStream(source);
+        SourceBuilder sourceStream = new SourceBuilder(source);
         sourceStream.eliminateQuotes();
 
         System.out.println(source);

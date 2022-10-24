@@ -8,7 +8,7 @@ import java.util.Map;
  * @date 2022/10/10 17:56
  * 封装所有对源字符串 进行处理的方法
  */
-public class SourceStream {
+public class SourceBuilder {
 
     private final String temp = "Temp?";
 
@@ -27,7 +27,7 @@ public class SourceStream {
     /**某字符的中间字符*/
     private Map<Integer,SourcePosition> middlePositionMap;
 
-    public SourceStream(String source){
+    public SourceBuilder(String source){
         this.source = source;
         this.result = source;
         this.sourcePositionMap = new HashMap<>(32);
@@ -72,11 +72,6 @@ public class SourceStream {
             }
             this.result = result;
         }
-    }
-    /**
-     * 剔除无关字符（与关键字不相干均为无关字符）
-     */
-    public void eliminate(){
     }
 
 
